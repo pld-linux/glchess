@@ -2,7 +2,7 @@ Summary:	glChess - A 3D chess interface
 Summary(pl):	glChess - Interfejs 3D do szachów
 Name:		glchess
 Version:	0.4.7
-Release:	2
+Release:	4.1
 License:	GPL
 Group:		X11/Applications/Games
 Source0:	http://dl.sourceforge.net/glchess/%{name}-%{version}.tar.gz
@@ -17,12 +17,15 @@ BuildRequires:	OpenGL-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gtk+-devel
-BuildRequires:	gtkglarea1-devel
+BuildRequires:	gtkglarea-devel
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define         _noautoreqdep   libGL.so.1 libGLU.so.1 libGLcore.so.1
-%define         _noreqdep  	 libGL.so.1 libGLU.so.1 libGLcore.so.1
+%define		_prefix		/usr/X11R6
+%define		_mandir		%{_prefix}/man
+%define		_desktopdir	%{_applnkdir}/Games/Board
+%define		_noautoreqdep	libGL.so.1 libGLU.so.1 libGLcore.so.1
+%define		_noreqdep	libGL.so.1 libGLU.so.1 libGLcore.so.1
 
 %description
 glChess is a 3D OpenGL based chess game that interfaces via the Chess
@@ -58,13 +61,13 @@ rm -f missing
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man6,%{_datadir}/games/glchess/textures} \
-	$RPM_BUILD_ROOT{%{_sysconfdir},%{_applnkdir}/Games/Board,%{_pixmapsdir}}
+	$RPM_BUILD_ROOT{%{_sysconfdir},%{_desktopdir},%{_pixmapsdir}}
 
 install src/glchess	$RPM_BUILD_ROOT%{_bindir}
 install man/glchess.6	$RPM_BUILD_ROOT%{_mandir}/man6
 cp -rf textures		$RPM_BUILD_ROOT%{_datadir}/games/glchess
 install glchessrc	$RPM_BUILD_ROOT%{_sysconfdir}
-install %{SOURCE1}	$RPM_BUILD_ROOT%{_applnkdir}/Games/Board
+install %{SOURCE1}	$RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE2}	$RPM_BUILD_ROOT%{_pixmapsdir}
 
 %clean
@@ -79,4 +82,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_pixmapsdir}/*
 #Have to overwrite config since some options have been added.
 %{_sysconfdir}/glchessrc
-%{_applnkdir}/Games/Board/glchess.desktop
+%{_desktopdir}/glchess.desktop
