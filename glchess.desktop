@@ -6,5 +6,4 @@ Icon=glchess.png
 Exec=glchess
 Terminal=0
 Type=Application
-Icon=glchess.png
 # vi: encoding=utf-8
