@@ -66,14 +66,12 @@ install glchessrc	$RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE1}	$RPM_BUILD_ROOT%{_applnkdir}/Games/Board
 install %{SOURCE2}	$RPM_BUILD_ROOT%{_pixmapsdir}
 
-gzip -9nf README AUTHORS NEWS TODO
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz
+%doc README AUTHORS NEWS TODO
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man6/*
 %{_datadir}/games/glchess
