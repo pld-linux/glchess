@@ -47,7 +47,7 @@ CFLAGS_FROM_RPM="%{rpmcflags}"
 CC_FROM_RPM="%{__cc}"
 export CFLAGS_FROM_RPM CC_FROM_RPM
 rm -f missing
-aclocal
+%{__aclocal}
 %{__autoconf}
 %{__automake}
 %configure \
