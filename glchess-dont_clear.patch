@@ -1,0 +1,11 @@
+diff -urN glchess-0.3.5.orig/Makefile glchess-0.3.5/Makefile
+--- glchess-0.3.5.orig/Makefile	Sat Nov 10 20:09:09 2001
++++ glchess-0.3.5/Makefile	Sat Nov 10 20:14:13 2001
+@@ -6,7 +6,6 @@
+ DATE       = `date "+%Y-%m-%d"`
+ 
+ all:
+-	@clear
+ 	@echo "Building glChess..."
+ 	@cd src && make
+ 	@mv src/glchess .
