@@ -10,6 +10,7 @@ Vendor:		Giuseppe Borzi' <gborzi@ieee.org>
 URL: 		http://glchess.sf.net
 Source: 	http://download.sf.net/glchess/%{name}-%{version}.tar.gz
 Source1: 	glchess.menu
+Source2:	glchess-xpm.tar.bz2
 Patch0:		glchess-patch2.patch
 Patch1: 	glchessrc.patch
 BuildRequires:	gtk+-devel
@@ -48,6 +49,12 @@ cp -r textures $RPM_BUILD_ROOT/%{_datadir}/games/glchess/
 cp glchessrc $RPM_BUILD_ROOT/etc
 cp %{SOURCE1} $RPM_BUILD_ROOT/%{_sysconfdir}/X11/wmconfig
 
+mkdir -p $RPM_BUILD_ROOT/%{_pixmapsdir}/
+bzip2 -dc %{SOURCE2} | tar xvf -
+cp glchess-16.xpm $RPM_BUILD_ROOT/%{_pixmapsdir}/glchess-16.xpm
+cp glchess-32.xpm $RPM_BUILD_ROOT/%{_pixmapsdir}/glchess-32.xpm
+cp glchess-48.xpm $RPM_BUILD_ROOT/%{_pixmapsdir}/glchess-48.xpm
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -57,5 +64,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 %{_mandir}/man6/*
 %{_datadir}/games/glchess/textures/*
+%{_pixmapsdir}/*
 /etc/glchessrc
 %{_sysconfdir}/X11/wmconfig/*
