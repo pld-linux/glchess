@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=glChess
-Comment=GL Chess
-Comment[pl]=Szachy w GL
-Icon=glchess.png
-Exec=glchess
-Terminal=0
-Type=Application
-# vi: encoding=utf-8
