@@ -1,0 +1,58 @@
+diff -Nuard glchess-0.4.7.orig/src/dialog.c glchess-0.4.7/src/dialog.c
+--- glchess-0.4.7.orig/src/dialog.c	2002-09-09 11:32:43.000000000 +0200
++++ glchess-0.4.7/src/dialog.c	2003-10-09 21:49:57.000000000 +0200
+@@ -293,7 +293,7 @@
+   }
+ 
+   /* GNUChessX stuff */
+-  label2 = gtk_label_new("Path for the gnuchessx binary:");
++  label2 = gtk_label_new("Path for the gnuchess binary:");
+   entry2->entry = gtk_entry_new();
+   check2 = gtk_check_button_new_with_label("Don't have GNUChessX engine");
+ 
+@@ -388,7 +388,7 @@
+     game->path_gnuchessx = g_strdup(path);
+ 
+   if (game->cecp.debug)
+-    debug_output("DEBUG ( %11s line %3d ): GNUChessX path is %s\n",
++    debug_output("DEBUG ( %11s line %3d ): GNUChess path is %s\n",
+ 		 __FILE__, __LINE__, path);
+ }
+ 
+diff -Nuard glchess-0.4.7.orig/src/main.c glchess-0.4.7/src/main.c
+--- glchess-0.4.7.orig/src/main.c	2002-09-09 11:32:43.000000000 +0200
++++ glchess-0.4.7/src/main.c	2003-10-09 21:49:29.000000000 +0200
+@@ -138,10 +138,10 @@
+   if (game->path_gnuchessx && (strlen(game->path_gnuchessx) < 4))
+   {
+     free(game->path_gnuchessx);
+-    game->path_gnuchessx = binary_path("gnuchessx");
++    game->path_gnuchessx = binary_path("gnuchess");
+ 
+     if (game->cecp.debug)
+-      debug_output("DEBUG ( %11s line %3d ): Found GNUChessX path: %s\n",
++      debug_output("DEBUG ( %11s line %3d ): Found GNUChess path: %s\n",
+ 		   __FILE__, __LINE__, game->path_gnuchessx);
+   }
+ 
+diff -Nuard glchess-0.4.7.orig/src/menu.c glchess-0.4.7/src/menu.c
+--- glchess-0.4.7.orig/src/menu.c	2002-09-09 11:32:43.000000000 +0200
++++ glchess-0.4.7/src/menu.c	2003-10-09 21:50:18.000000000 +0200
+@@ -274,7 +274,7 @@
+       /* Check whether user said to don't have GNUChessX */
+       if (!strcmp(game->path_gnuchessx, "do not use"))
+       {
+-	engine_dialog("You claimed to don't have GNUChessX installed.\n"
++	engine_dialog("You claimed to don't have GNUChess installed.\n"
+ 		      "If you have it now go to \"Settings/Edit paths\".");
+ 	engine = -1;
+ 	return;
+@@ -284,7 +284,7 @@
+       if (fopen(game->path_gnuchessx, "r") == NULL)
+       {
+ 	engine_dialog
+-	    ("The path defined for the GNUChessX binary is wrong.\n"
++	    ("The path defined for the GNUChess binary is wrong.\n"
+ 	     "Please go to \"Settings/Edit paths\".");
+ 	engine = -1;
+ 	return;
