@@ -2,7 +2,7 @@ Summary:	glChess - A 3D chess interface
 Summary(pl):	glChess - Interfejs 3D do szachów
 Name:		glchess
 Version:	0.4.2
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications/Games
 Group(de):	X11/Applikationen/Spiele
@@ -13,6 +13,8 @@ Source2:	%{name}.png
 Patch0:		%{name}rc.patch
 Patch1:		%{name}-CC_and_CFLAGS.patch
 URL:		http://glchess.sf.net/
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	gtk+-devel
 BuildRequires:	gtkglarea-devel
 BuildRequires:	OpenGL-devel
@@ -43,10 +45,14 @@ przeciw cz³owiekowi, lecz jeszcze nie przez sieæ (zobacz TODO).
 find . -type d -name CVS -exec rm -rf {} \; ||:
 
 %build
-export CFLAGS-FROM-RPM="%{rpmcflags}"
-export CC-FROM-RPM="%{__cc}"
-./autogen.sh
-./configure --prefix=%{_prefix} --with-lib-GL
+export CFLAGS_FROM_RPM="%{rpmcflags}"
+export CC_FROM_RPM="%{__cc}"
+rm -f missing
+aclocal
+autoconf
+automake -a -c
+%configure \
+	--with-lib-GL
 %{__make}
 
 %install
