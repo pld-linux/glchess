@@ -6,8 +6,8 @@ diff -Nru glchess-0.4.2/configure.in glchess-0.4.2-new/configure.in
  AC_TYPE_SIZE_T
  
 -CFLAGS="$GTK_CFLAGS $GL_CFLAGS $GTKGL_CFLAGS"
-+CC="$CC-FROM-RPM"
-+CFLAGS="$CFLAGS-FROM-RPM $GTK_CFLAGS $GL_CFLAGS $GTKGL_CFLAGS"
++CC="$CC_FROM_RPM"
++CFLAGS="$CFLAGS_FROM_RPM $GTK_CFLAGS $GL_CFLAGS $GTKGL_CFLAGS"
  LIBS="$GTKGL_LIBS $GTK_LIBS $GL_LIBS $IMG_LIBS"
  
  AC_OUTPUT(src/Makefile man/Makefile textures/Makefile Makefile)
