@@ -11,7 +11,7 @@ Group(pl):	X11/Aplikacje/Gry
 Source0:	http://download.sf.net/glchess/%{name}-%{version}.tar.gz
 Source1:	%{name}.desktop
 Source2:	%{name}-xpm.tar.bz2
-Patch0:		%{name}-patch2.patch
+Patch0:		%{name}-man-nocompress.patch
 Patch1:		%{name}rc.patch
 Patch2:		%{name}-dont_clear.patch
 URL:		http://glchess.sf.net/
