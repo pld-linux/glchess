@@ -6,6 +6,7 @@ Release:	1
 License:	GPL
 Group:		X11/Applications/Games
 Source0:	http://dl.sourceforge.net/glchess/%{name}-%{version}.tar.gz
+# Source0-md5:	66ca6939bda19b25a938d374ca9158bd
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 Patch0:		%{name}rc.patch
