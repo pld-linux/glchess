@@ -13,6 +13,7 @@ Source1:	%{name}.desktop
 Source2:	%{name}-xpm.tar.bz2
 Patch0:		%{name}-patch2.patch
 Patch1:		%{name}rc.patch
+Patch2:		%{name}-dont_clear.patch
 URL:		http://glchess.sf.net/
 BuildRequires:	gtk+-devel
 BuildRequires:	gtkglarea-devel
@@ -37,6 +38,7 @@ przeciw cz³owiekowi, lecz jeszcze nie przez sieæ (zobacz TODO).
 %setup -q
 %patch0 -p1
 %patch1 -p0
+%patch2 -p1
 
 %build
 %{__make}
