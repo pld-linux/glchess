@@ -1,0 +1,268 @@
+diff -ruN glchess-0.3.5/src/draw.c glchess-0.3.5-ref/src/draw.c
+--- glchess-0.3.5/src/draw.c	Tue Sep  4 14:54:45 2001
++++ glchess-0.3.5-ref/src/draw.c	Wed Nov 14 23:13:45 2001
+@@ -159,9 +159,10 @@
+ 
+   glEnable(GL_BLEND);
+   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
++  glDisable(GL_LIGHTING);
+ 
+   /* Draw the numbers */
+-  glColor4fv(number_colour);
++  glColor4f(0.8,0.8,0.8,1);
+   glMaterialfv(GL_FRONT, GL_DIFFUSE, number_colour);
+   for (cols = 0; cols < 8; cols++)
+   {
+@@ -191,7 +192,7 @@
+   }
+ 
+   /* Draw the letters */
+-  glColor4fv(letter_colour);
++  glColor4f(0.8,0.8,0.8,1);
+   glMaterialfv(GL_FRONT, GL_DIFFUSE, letter_colour);
+   for (rows = 0; rows < 8; rows++)
+   {
+@@ -345,6 +346,40 @@
+   glPopAttrib();
+ }
+ 
++void cover()
++{
++	glPushAttrib(GL_ENABLE_BIT | GL_LIGHTING | GL_TEXTURE_BIT);
++	glDisable(GL_LIGHTING);
++	glDisable(GL_TEXTURE_2D);
++	glDisable(GL_FOG);
++	glDisable(GL_CULL_FACE);
++	glDepthMask(GL_FALSE);
++	glColor3f(0,0,0);
++	glBegin(GL_QUADS);
++		glVertex3d(-40,0,-40);
++		glVertex3d(-40,0,40);
++		glVertex3d(-100,0,40);
++		glVertex3d(-100,0,-40);
++		
++		glVertex3d(40,0,-40);
++		glVertex3d(40,0,40);
++		glVertex3d(100,0,40);
++		glVertex3d(100,0,-40);
++
++		glVertex3d(-100,0,-40);
++		glVertex3d(100,0,-40);
++		glVertex3d(100,0,-100);
++		glVertex3d(-100,0,-100);
++
++		glVertex3d(-100,0,40);
++		glVertex3d(100,0,40);
++		glVertex3d(100,0,100);
++		glVertex3d(-100,0,100);
++	glEnd();
++	glDepthMask(GL_TRUE);
++	glPopAttrib();
++}
++
+ /* Places the lights where they should be */
+ void place_lights(Game * game)
+ {
+@@ -390,7 +425,7 @@
+ 
+   /* Clear the buffers */
+   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+-  if (game->is_reflect && game->camera->mode != MODE_ORTHO)
++  if (game->is_reflect==2 && game->camera->mode != MODE_ORTHO)
+     glClear(GL_STENCIL_BUFFER_BIT);
+ 
+   glMatrixMode(GL_MODELVIEW);
+@@ -438,7 +473,7 @@
+   draw_pieces(game);
+ 
+   /* Draw the co-ordinates [1-8] [a-h] */
+-  if (game->is_coord)
++  if (game->is_coord && game->is_reflect!=1)
+     draw_coords(game);
+ 
+   /* Make a stencil of the floor if reflections are done */
+@@ -448,32 +483,32 @@
+     glPushAttrib(GL_ENABLE_BIT);	/* Save states */
+     glPushAttrib(GL_COLOR_BUFFER_BIT | GL_FOG_BIT);	/* Disable drawing */
+ 
+-    /* Disable stuff */
+-    glDisable(GL_LIGHTING);
+-    glDisable(GL_FOG);
+-    /* Don't draw to the screen or the depth buffer at this moment */
+-    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+-    glDepthMask(GL_FALSE);
+-
+-    /* Write to the stencil buffer */
+-    glEnable(GL_STENCIL_TEST);
+-    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+-    glStencilFunc(GL_ALWAYS, 1, 0xffffffff);
+-  }
+-
+-  /* Draw the board (and the co-ordinates) */
+-  draw_board(game);
+-
+-  if (game->is_reflect && game->camera->mode != MODE_ORTHO)
+-  {				/* draw the reflected pieces */
+-    /* Re-enable drawing (GL_COLOR_BUFFER_BIT) */
+-    glPopAttrib();
+-    /* Re-enable writing to the depth buffer */
+-    glDepthMask(GL_TRUE);
+-
+-    /* Draw only if stencil is set to 1 */
+-    glStencilFunc(GL_EQUAL, 1, 0xffffffff);
+-    glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
++    if(game->is_reflect==2)
++    {
++      /* Disable stuff */
++      glDisable(GL_LIGHTING);
++      glDisable(GL_FOG);
++      /* Don't draw to the screen or the depth buffer at this moment */
++      glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
++      glDepthMask(GL_FALSE);
++
++      /* Write to the stencil buffer */
++      glEnable(GL_STENCIL_TEST);
++      glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
++      glStencilFunc(GL_ALWAYS, 1, 0xffffffff);
++      draw_board(game);
++
++      /* Re-enable drawing (GL_COLOR_BUFFER_BIT) */
++      glPopAttrib();
++      /* Re-enable writing to the depth buffer */
++      glDepthMask(GL_TRUE);
++      
++      /* Draw only if stencil is set to 1 */
++      glStencilFunc(GL_EQUAL, 1, 0xffffffff);
++      glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
++    }
++    
++  	/* draw the reflected pieces */
+ 
+     /* Reflect in floor */
+     glPushMatrix();
+@@ -492,7 +527,8 @@
+     /* Prepare to draw board */
+     glCullFace(GL_BACK);
+     glEnable(GL_BLEND);
+-    glDisable(GL_DEPTH_TEST);
++    if(game->is_reflect==2)
++      glDisable(GL_DEPTH_TEST);
+     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+ 
+     /* Draw the board */
+@@ -504,7 +540,17 @@
+ 
+     /* Restore the scene attributes */
+     glPopAttrib();
++
++    if(game->is_reflect==1)
++      cover();
+   }
++  else
++    /* Draw the board (and the co-ordinates) */
++    draw_board(game);
++
++  /* Draw the co-ordinates [1-8] [a-h] */
++  if (game->is_coord && game->is_reflect==1)
++    draw_coords(game);
+ 
+   if (game->selected[0] != -1)
+     draw_selected_piece(game);
+diff -ruN glchess-0.3.5/src/menu.c glchess-0.3.5-ref/src/menu.c
+--- glchess-0.3.5/src/menu.c	Tue Sep  4 14:54:45 2001
++++ glchess-0.3.5-ref/src/menu.c	Wed Nov 14 21:52:02 2001
+@@ -105,7 +105,14 @@
+     {"/_View/sep1", NULL, NULL, 0, "<Separator>"},
+     {"/_View/_Lighting", "L", toggle_lighting, 1, "<CheckItem>"},
+     {"/_View/_Shading", "H", toggle_shading, 1, "<CheckItem>"},
+-    {"/_View/_Reflections", "J", toggle_reflect, 1, "<CheckItem>"},
++    {"/_View/_Reflections", NULL, NULL, 0, "<Branch>"},
++    {"/_View/_Reflections/tear", NULL, NULL, 0, "<Tearoff>"},
++    {"/_View/_Reflections/_Off", NULL, set_reflect, 0,
++     "<RadioItem>"},
++    {"/_View/_Reflections/_Quick hack", NULL, set_reflect, 1,
++     "/View/Reflections/Off"},
++    {"/_View/_Reflections/_Stencil buffer", NULL, set_reflect, 2,
++     "/View/Reflections/Off"},
+     {"/_View/_Textures", "K", toggle_texture, 1, "<CheckItem>"},
+     {"/_View/_Fog", "M", toggle_fog, 1, "<CheckItem>"},
+     {"/_View/Show _Coords", "N", toggle_coords, 1, "<CheckItem>"},
+@@ -155,11 +162,6 @@
+     GTK_CHECK_MENU_ITEM(check_item)->active = TRUE;
+   check_item =
+       gtk_item_factory_get_widget(glcwidget->item_factory,
+-				  "/View/Reflections");
+-  if (game->is_reflect)
+-    GTK_CHECK_MENU_ITEM(check_item)->active = TRUE;
+-  check_item =
+-      gtk_item_factory_get_widget(glcwidget->item_factory,
+ 				  "/View/Textures");
+   if (game->is_texture)
+     GTK_CHECK_MENU_ITEM(check_item)->active = TRUE;
+@@ -172,6 +174,28 @@
+ 				  "/View/Show Coords");
+   if (game->is_coord)
+     GTK_CHECK_MENU_ITEM(check_item)->active = TRUE;
++
++  switch (game->is_reflect)
++  {
++  case 0:
++    check_item =
++	gtk_item_factory_get_widget(glcwidget->item_factory,
++				    "/View/Reflections/Off");
++    break;
++  case 1:
++    check_item =
++	gtk_item_factory_get_widget(glcwidget->item_factory,
++				    "/View/Reflections/Quick hack");
++    break;
++  case 2:
++    check_item =
++	gtk_item_factory_get_widget(glcwidget->item_factory,
++				    "/View/Reflections/Stencil buffer");
++  default:
++    break;
++  }
++  gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_item), TRUE);
++
+   switch (game->camera->mode)
+   {
+   case MODE_FREE:
+@@ -440,6 +464,11 @@
+   post_redisplay(game);
+ }
+ 
++void set_reflect(glChessWidget * glcwidget, guint value, GtkWidget * widget)
++{
++	glcwidget->game->is_reflect=value;
++}
++
+ /* Sets what the minimum dt is, so not all availiable cpu is used */
+ void set_max_fps(glChessWidget * glcwidget, guint fps, GtkWidget * widget)
+ {
+diff -ruN glchess-0.3.5/src/menu.h glchess-0.3.5-ref/src/menu.h
+--- glchess-0.3.5/src/menu.h	Tue Sep  4 14:54:45 2001
++++ glchess-0.3.5-ref/src/menu.h	Wed Nov 14 21:47:18 2001
+@@ -35,6 +35,7 @@
+ void toggle_debug(glChessWidget *, guint, GtkWidget *);
+ void toggle_color(glChessWidget *, guint, GtkWidget *);
+ void toggle_piece_size(glChessWidget *, guint, GtkWidget *);
++void set_reflect(glChessWidget *, guint, GtkWidget *);
+ void set_view_mode(glChessWidget *, guint, GtkWidget *);
+ void set_max_fps(glChessWidget *, guint, GtkWidget *);
+ void about_dialog(glChessWidget *, guint, GtkWidget *);
+diff -ruN glchess-0.3.5/src/texture.c glchess-0.3.5-ref/src/texture.c
+--- glchess-0.3.5/src/texture.c	Tue Sep  4 14:54:45 2001
++++ glchess-0.3.5-ref/src/texture.c	Wed Nov 14 21:18:54 2001
+@@ -101,8 +101,9 @@
+ 
+   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
++  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
++  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
++
+ 
+   if (is_one_colour)
+   {
