@@ -1,7 +1,7 @@
 Summary:	glChess - A 3D chess interface
 Summary(pl):	glChess - Interfejs 3D do szachów
 Name:		glchess
-Version:	0.4.1
+Version:	0.4.2
 Release:	1
 License:	GPL
 Group:		X11/Applications/Games
@@ -10,10 +10,8 @@ Group(pl):	X11/Aplikacje/Gry
 Source0:	http://prdownloads.sourceforge.net/glchess/%{name}-%{version}.tar.gz
 Source1:	%{name}.desktop
 Source2:	%{name}.png
-Patch0:		%{name}-man_nocompress.patch
-Patch1:		%{name}rc.patch
-Patch2:		%{name}-CFLAGS_and_CC.patch
-Patch3:		%{name}-no_clear_term.patch
+Patch0:		%{name}rc.patch
+Patch1:		%{name}-CC_and_CFLAGS.patch
 URL:		http://glchess.sf.net/
 BuildRequires:	gtk+-devel
 BuildRequires:	gtkglarea-devel
@@ -42,20 +40,21 @@ przeciw cz³owiekowi, lecz jeszcze nie przez sieæ (zobacz TODO).
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
+find . -type d -name CVS -exec rm -rf {} \; ||:
 
 %build
-%{__make} all \
-	CFLAGS="%{rpmcflags} -Wall `gtk-config --cflags`" \
-	CC=%{__cc}
+export CFLAGS-FROM-RPM="%{rpmcflags}"
+export CC-FROM-RPM="%{__cc}"
+./autogen.sh
+./configure --prefix=%{_prefix} --with-lib-GL
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man6,%{_datadir}/games/glchess/textures} \
 	$RPM_BUILD_ROOT{%{_sysconfdir},%{_applnkdir}/Games,%{_pixmapsdir}}
 
-install glchess		$RPM_BUILD_ROOT%{_bindir}
+install src/glchess	$RPM_BUILD_ROOT%{_bindir}
 install man/glchess.6	$RPM_BUILD_ROOT%{_mandir}/man6
 cp -rf textures		$RPM_BUILD_ROOT%{_datadir}/games/glchess
 install glchessrc	$RPM_BUILD_ROOT%{_sysconfdir}
@@ -70,7 +69,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README.gz AUTHORS.gz NEWS.gz TODO.gz
+%doc *.gz
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man6/*
 %{_datadir}/games/glchess
