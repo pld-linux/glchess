@@ -6,7 +6,7 @@ diff -urN glchess-0.3.5/Makefile glchess-0.3.5-moje/Makefile
  	@mv src/glchess .
  	@echo "Building documentation..."
 -	@cat man/glchess.6 | sed -e s/VERSION/$(VERSION)/ -e s/DATE/$(DATE)/ | gzip -9 - > man/glchess.6.gz
-+	@cat man/glchess.6 | sed -e s/VERSION/$(VERSION)/ -e s/DATE/$(DATE)/ | gzip -9nf - > man/glchess.6.gz
++	@cat man/glchess.6 | sed -e s/VERSION/$(VERSION)/ -e s/DATE/$(DATE)/ > man/glchess.6
  
  # Updates version entry in src/global.h
  version:
