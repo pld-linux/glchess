@@ -4,6 +4,6 @@ Comment=GL Chess
 Comment[pl]=Szachy w GL
 Icon=glchess.png
 Exec=glchess
-Terminal=0
+Terminal=false
 Type=Application
 # vi: encoding=utf-8
