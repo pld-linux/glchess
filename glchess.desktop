@@ -1,9 +1,8 @@
-[Desktop Engry]
+[Desktop Entry]
 Name=glChess
 Comment=GL Chess
 Comment[pl]=Szachy w GL
 Exec=glchess
 Terminal=0
-Type=Applications/Games
-Type[pl]=Aplikacje/Gry
+Type=Application
 # vi: encoding=utf-8
