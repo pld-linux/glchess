@@ -7,10 +7,11 @@ License: 	GPL
 Group: 		Amusements/Games
 Group(pl):	Aplikacje/Gry
 Vendor:		Giuseppe Borzi' <gborzi@ieee.org>
-URL: 		http://glchess.sourceforge.net
-Source: 	%{name}-%{version}.tar.bz2
+URL: 		http://glchess.sf.net
+Source: 	http://download.sf.net/glchess/%{name}-%{version}.tar.gz
 Source1: 	glchess.menu
-Patch0: 	glchessrc.patch
+Patch0:		patch2.patch
+Patch1: 	glchessrc.patch
 BuildRequires:	gtk+-devel
 BuildRequires:	gtkglarea-devel
 BuildRoot: 	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -29,7 +30,8 @@ lecz jeszcze nie przez sieæ (zobacz TODO).
 
 %prep
 %setup -q
-%patch0 -p0
+%patch0 -p1
+%patch1 -p0
 
 %build
 make
