@@ -45,8 +45,9 @@ przeciw cz³owiekowi, lecz jeszcze nie przez sieæ (zobacz TODO).
 find . -type d -name CVS -exec rm -rf {} \; ||:
 
 %build
-export CFLAGS_FROM_RPM="%{rpmcflags}"
-export CC_FROM_RPM="%{__cc}"
+CFLAGS_FROM_RPM="%{rpmcflags}"
+CC_FROM_RPM="%{__cc}"
+export CFLAGS_FROM_RPM CC_FROM_RPM
 rm -f missing
 aclocal
 autoconf
@@ -66,7 +67,6 @@ cp -rf textures		$RPM_BUILD_ROOT%{_datadir}/games/glchess
 install glchessrc	$RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE1}	$RPM_BUILD_ROOT%{_applnkdir}/Games
 install %{SOURCE2}	$RPM_BUILD_ROOT%{_pixmapsdir}
-
 
 gzip -9nf README AUTHORS NEWS TODO
 
