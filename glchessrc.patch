@@ -1,6 +1,6 @@
-diff -Nru glchess-0.4.1/glchessrc glchess-0.4.1-new/glchessrc
---- glchess-0.4.1/glchessrc	Fri Dec  7 19:51:54 2001
-+++ glchess-0.4.1-new/glchessrc	Sun Dec  9 01:35:49 2001
+diff -Nru glchess-0.4.2/glchessrc glchess-0.4.2-new/glchessrc
+--- glchess-0.4.2/glchessrc	Fri Dec  7 19:51:54 2001
++++ glchess-0.4.2-new/glchessrc	Sun Dec  9 01:35:49 2001
 @@ -4,9 +4,9 @@
  is_smooth               1
  is_texture              1
