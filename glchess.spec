@@ -48,8 +48,8 @@ CC_FROM_RPM="%{__cc}"
 export CFLAGS_FROM_RPM CC_FROM_RPM
 rm -f missing
 aclocal
-autoconf
-automake -a -c -f
+%{__autoconf}
+%{__automake}
 %configure \
 	--with-lib-GL
 %{__make}
