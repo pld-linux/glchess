@@ -5,7 +5,7 @@
  camera_mode             2
  
 -texture_dir             /usr/local/share/games/glchess/textures/
-+texture_dir             /usr/share/games/glchess/textures/
++texture_dir             /usr/X11R6/share/glchess/textures/
  number_colour           1.0 1.0 1.0 1.0
  letter_colour           1.0 1.0 1.0 1.0
  
@@ -14,7 +14,7 @@
  white_selected_colour   0.9 0.1 0.1 0.8
  white_board_colour      0.78 0.76 0.40 0.5
 -white_texture_dir       /usr/local/share/games/glchess/textures/
-+white_texture_dir       /usr/share/games/glchess/textures/
++white_texture_dir       /usr/X11R6/share/glchess/textures/
  white_piece_texture     white_piece_texture.rgb
  white_selected_texture  selected_piece_texture.rgb
  white_board_texture     white_board_texture.rgb
@@ -23,7 +23,7 @@
  black_selected_colour   0.9 0.1 0.1 0.8
  black_board_colour      0.47 0.64 0.43 0.5
 -black_texture_dir       /usr/local/share/games/glchess/textures/
-+black_texture_dir       /usr/share/games/glchess/textures/
++black_texture_dir       /usr/X11R6/share/glchess/textures/
  black_piece_texture     black_piece_texture.rgb
  black_selected_texture  selected_piece_texture.rgb
  black_board_texture     black_board_texture.rgb
