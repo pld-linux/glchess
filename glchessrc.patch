@@ -38,7 +38,7 @@ diff -Nru glchess-0.4.2/glchessrc glchess-0.4.2-new/glchessrc
 -path_for_crafty	        ---
 -path_for_gnuchessx	---
 +path_for_crafty	        /dont/change/that/unless/you/have/crafty
-+path_for_gnuchessx	/usr/bin/gnuchessx
++path_for_gnuchessx	/usr/bin/gnuchess
  
  debug                   1
  beep_signal             1
