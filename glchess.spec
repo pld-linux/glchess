@@ -44,20 +44,20 @@ przeciw cz³owiekowi, lecz jeszcze nie przez sieæ (zobacz TODO).
 %patch2 -p1
 
 %build
-%{__make} -C src \
+%{__make} all
+%{__make} -C src clean all \
 	CFLAGS="%{rpmcflags}  -Wall `gtk-config --cflags`"
-%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man6,%{_datadir}/glchess/textures} \
 	$RPM_BUILD_ROOT{%{_sysconfdir},%{_applnkdir}/Games,%{_pixmapsdir}}
 
-install glchess $RPM_BUILD_ROOT%{_bindir}
-install man/glchess.6 $RPM_BUILD_ROOT/%{_mandir}/man6
-cp -rf textures $RPM_BUILD_ROOT%{_datadir}/glchess
-install glchessrc $RPM_BUILD_ROOT%{_sysconfdir}
-install %{SOURCE1} $RPM_BUILD_ROOT%{_applnkdir}/Games
+install src/glchess	$RPM_BUILD_ROOT%{_bindir}
+install man/glchess.6	$RPM_BUILD_ROOT/%{_mandir}/man6
+cp -rf textures		$RPM_BUILD_ROOT%{_datadir}/glchess
+install glchessrc	$RPM_BUILD_ROOT%{_sysconfdir}
+install %{SOURCE1}	$RPM_BUILD_ROOT%{_applnkdir}/Games
 
 bzip2 -dc %{SOURCE2} | tar xvf -
 install glchess-{16,32,48}.xpm $RPM_BUILD_ROOT%{_pixmapsdir}
