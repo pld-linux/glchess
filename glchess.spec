@@ -1,20 +1,21 @@
 Summary:	glChess - A 3D chess interface
 Summary(pl):	glChess - Interfejs 3D do szachów
 Name:		glchess
-Version:	0.3.5
-Release:	3
+Version:	0.4.1
+Release:	1
 License:	GPL
-Vendor:		Giuseppe Borzi' <gborzi@ieee.org>
 Group:		X11/Applications/Games
 Group(de):	X11/Applikationen/Spiele
 Group(pl):	X11/Aplikacje/Gry
-Source0:	http://download.sf.net/glchess/%{name}-%{version}.tar.gz
+Source0:	http://prdownloads.sourceforge.net/glchess/%{name}-%{version}.tar.gz
 Source1:	%{name}.desktop
 Source2:	%{name}-xpm.tar.bz2
-Patch0:		%{name}-man-nocompress.patch
+Patch0:		%{name}-man_nocompress.patch
 Patch1:		%{name}rc.patch
-Patch2:		%{name}-dont_clear.patch
-Patch3:		%{name}-reflection.patch
+#Patch2:		%{name}-dont_clear.patch
+#Patch3:		%{name}-reflection.patch
+Patch2:		%{name}-CFLAGS_and_CC.patch
+
 URL:		http://glchess.sf.net/
 BuildRequires:	gtk+-devel
 BuildRequires:	gtkglarea-devel
@@ -42,23 +43,24 @@ przeciw cz³owiekowi, lecz jeszcze nie przez sieæ (zobacz TODO).
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p0
+%patch1 -p1
 %patch2 -p1
-%patch3 -p1
+#%patch3 -p1
 
 %build
-%{__make} all
-%{__make} -C src clean all \
-	CFLAGS="%{rpmcflags}  -Wall `gtk-config --cflags`"
+%{__make} CFLAGS="%{rpmcflags}  -Wall `gtk-config --cflags`" CC=%{__cc} all
+#%{__make} -C src clean all \
+#	CFLAGS="%{rpmcflags}  -Wall `gtk-config --cflags`" CC=%{__cc}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man6,%{_datadir}/glchess/textures} \
+
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man6,%{_datadir}/games/glchess/textures} \
 	$RPM_BUILD_ROOT{%{_sysconfdir},%{_applnkdir}/Games,%{_pixmapsdir}}
 
-install src/glchess	$RPM_BUILD_ROOT%{_bindir}
+install glchess		$RPM_BUILD_ROOT%{_bindir}
 install man/glchess.6	$RPM_BUILD_ROOT/%{_mandir}/man6
-cp -rf textures		$RPM_BUILD_ROOT%{_datadir}/glchess
+cp -rf textures		$RPM_BUILD_ROOT%{_datadir}/games/glchess
 install glchessrc	$RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE1}	$RPM_BUILD_ROOT%{_applnkdir}/Games
 
@@ -75,7 +77,8 @@ rm -rf $RPM_BUILD_ROOT
 %doc README.gz AUTHORS.gz NEWS.gz TODO.gz
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man6/*
-%{_datadir}/glchess
+%{_datadir}/games/glchess
 %{_pixmapsdir}/*
+#Have to overwrite config since some options have been added.
 %{_sysconfdir}/glchessrc
 %{_applnkdir}/Games/glchess.desktop
