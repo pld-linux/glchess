@@ -59,13 +59,13 @@ automake -a -c
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man6,%{_datadir}/games/glchess/textures} \
-	$RPM_BUILD_ROOT{%{_sysconfdir},%{_applnkdir}/Games,%{_pixmapsdir}}
+	$RPM_BUILD_ROOT{%{_sysconfdir},%{_applnkdir}/Games/Board,%{_pixmapsdir}}
 
 install src/glchess	$RPM_BUILD_ROOT%{_bindir}
 install man/glchess.6	$RPM_BUILD_ROOT%{_mandir}/man6
 cp -rf textures		$RPM_BUILD_ROOT%{_datadir}/games/glchess
 install glchessrc	$RPM_BUILD_ROOT%{_sysconfdir}
-install %{SOURCE1}	$RPM_BUILD_ROOT%{_applnkdir}/Games
+install %{SOURCE1}	$RPM_BUILD_ROOT%{_applnkdir}/Games/Board
 install %{SOURCE2}	$RPM_BUILD_ROOT%{_pixmapsdir}
 
 gzip -9nf README AUTHORS NEWS TODO
@@ -82,4 +82,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_pixmapsdir}/*
 #Have to overwrite config since some options have been added.
 %{_sysconfdir}/glchessrc
-%{_applnkdir}/Games/glchess.desktop
+%{_applnkdir}/Games/Board/glchess.desktop
