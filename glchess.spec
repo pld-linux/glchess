@@ -11,6 +11,7 @@ Source1:	%{name}.desktop
 Source2:	%{name}.png
 Patch0:		%{name}rc.patch
 Patch1:		%{name}-CC_and_CFLAGS.patch
+Patch2:		%{name}-gnuchessx.patch
 URL:		http://glchess.sf.net/
 BuildRequires:	OpenGL-devel
 BuildRequires:	autoconf
@@ -39,6 +40,7 @@ przeciw cz³owiekowi, lecz jeszcze nie przez sieæ (zobacz TODO).
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 find . -type d -name CVS -exec rm -rf {} \; ||:
 
 %build
