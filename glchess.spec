@@ -5,17 +5,17 @@ Version:	0.4.4
 Release:	1
 License:	GPL
 Group:		X11/Applications/Games
-Source0:	http://prdownloads.sourceforge.net/glchess/%{name}-%{version}.tar.gz
+Source0:	http://dl.sourceforge.net/glchess/%{name}-%{version}.tar.gz
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 Patch0:		%{name}rc.patch
 Patch1:		%{name}-CC_and_CFLAGS.patch
 URL:		http://glchess.sf.net/
+BuildRequires:	OpenGL-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gtk+-devel
 BuildRequires:	gtkglarea-devel
-BuildRequires:	OpenGL-devel
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
