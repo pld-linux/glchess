@@ -1,9 +1,12 @@
 diff -Nru glchess-0.4.1/glchessrc glchess-0.4.1-new/glchessrc
 --- glchess-0.4.1/glchessrc	Fri Dec  7 19:51:54 2001
-+++ glchess-0.4.1-new/glchessrc	Sat Dec  8 02:27:42 2001
-@@ -6,7 +6,7 @@
++++ glchess-0.4.1-new/glchessrc	Sun Dec  9 01:35:49 2001
+@@ -4,9 +4,9 @@
+ is_smooth               1
+ is_texture              1
  is_fog                  0
- camera_mode             2
+-camera_mode             2
++camera_mode             4
  
 -texture_dir             /usr/local/share/games/glchess/textures/
 +texture_dir             /usr/X11R6/share/games/glchess/textures/
@@ -28,11 +31,13 @@ diff -Nru glchess-0.4.1/glchessrc glchess-0.4.1-new/glchessrc
  black_piece_texture     black_piece_texture.rgb
  black_selected_texture  selected_piece_texture.rgb
  black_board_texture     black_board_texture.rgb
-@@ -33,7 +33,7 @@
+@@ -32,8 +32,8 @@
+ cecp_search_depth       6
  cecp_ai_player          BLACK
  
- path_for_crafty	        ---
+-path_for_crafty	        ---
 -path_for_gnuchessx	---
++path_for_crafty	        /dont/change/that/unless/you/have/crafty
 +path_for_gnuchessx	/usr/bin/gnuchessx
  
  debug                   1
