@@ -4,10 +4,10 @@ Name:		glchess
 Version:	0.3.5
 Release:	1
 License:	GPL
+Vendor:		Giuseppe Borzi' <gborzi@ieee.org>
 Group:		X11/Applications/Games
 Group(de):	X11/Applikationen/Spiele
 Group(pl):	X11/Aplikacje/Gry
-Vendor:		Giuseppe Borzi' <gborzi@ieee.org>
 Source0:	http://download.sf.net/glchess/%{name}-%{version}.tar.gz
 Source1:	%{name}.desktop
 Source2:	%{name}-xpm.tar.bz2
@@ -44,7 +44,7 @@ przeciw cz³owiekowi, lecz jeszcze nie przez sieæ (zobacz TODO).
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man6,%{_datadir}/glchess/textures} \
-	$RPM_BUILD_ROOT{%{_sysconfdir},%{_applnkdir}/Games}
+	$RPM_BUILD_ROOT{%{_sysconfdir},%{_applnkdir}/Games,%{_pixmapsdir}}
 
 install glchess $RPM_BUILD_ROOT%{_bindir}
 install man/glchess.6 $RPM_BUILD_ROOT/%{_mandir}/man6
@@ -52,7 +52,6 @@ cp -rf textures $RPM_BUILD_ROOT%{_datadir}/glchess
 install glchessrc $RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_applnkdir}/Games
 
-install -d $RPM_BUILD_ROOT%{_pixmapsdir}
 bzip2 -dc %{SOURCE2} | tar xvf -
 install glchess-{16,32,48}.xpm $RPM_BUILD_ROOT%{_pixmapsdir}
 
