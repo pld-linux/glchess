@@ -17,10 +17,13 @@ BuildRequires:	OpenGL-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gtk+-devel
-BuildRequires:	gtkglarea1-devel
+BuildRequires:	gtkglarea-devel
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define		_prefix		/usr/X11R6
+%define		_mandir		%{_prefix}/man
+%define		_desktopdir	%{_applnkdir}/Games/Board
 %define		_noautoreqdep	libGL.so.1 libGLU.so.1 libGLcore.so.1
 %define		_noreqdep	libGL.so.1 libGLU.so.1 libGLcore.so.1
 
