@@ -17,8 +17,11 @@ Patch2:		%{name}-dont_clear.patch
 URL:		http://glchess.sf.net/
 BuildRequires:	gtk+-devel
 BuildRequires:	gtkglarea-devel
+BuildRequires:	OpenGL-devel
+Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define         _noautoreqdep   libGL.so.1 libGLU.so.1
 %define		_prefix		/usr/X11R6
 %define		_mandir		%{_prefix}/man
 
@@ -41,6 +44,8 @@ przeciw cz³owiekowi, lecz jeszcze nie przez sieæ (zobacz TODO).
 %patch2 -p1
 
 %build
+%{__make} -C src \
+	CFLAGS="%{rpmcflags}  -Wall `gtk-config --cflags`"
 %{__make}
 
 %install
