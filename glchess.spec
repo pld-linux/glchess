@@ -9,13 +9,10 @@ Group(de):	X11/Applikationen/Spiele
 Group(pl):	X11/Aplikacje/Gry
 Source0:	http://prdownloads.sourceforge.net/glchess/%{name}-%{version}.tar.gz
 Source1:	%{name}.desktop
-Source2:	%{name}-xpm.tar.bz2
+Source2:	%{name}.png
 Patch0:		%{name}-man_nocompress.patch
 Patch1:		%{name}rc.patch
-#Patch2:		%{name}-dont_clear.patch
-#Patch3:		%{name}-reflection.patch
 Patch2:		%{name}-CFLAGS_and_CC.patch
-
 URL:		http://glchess.sf.net/
 BuildRequires:	gtk+-devel
 BuildRequires:	gtkglarea-devel
@@ -45,26 +42,24 @@ przeciw cz³owiekowi, lecz jeszcze nie przez sieæ (zobacz TODO).
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-#%patch3 -p1
 
 %build
-%{__make} CFLAGS="%{rpmcflags}  -Wall `gtk-config --cflags`" CC=%{__cc} all
-#%{__make} -C src clean all \
-#	CFLAGS="%{rpmcflags}  -Wall `gtk-config --cflags`" CC=%{__cc}
+%{__make} all \
+	CFLAGS="%{rpmcflags} -Wall `gtk-config --cflags`" \
+	CC=%{__cc}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man6,%{_datadir}/games/glchess/textures} \
 	$RPM_BUILD_ROOT{%{_sysconfdir},%{_applnkdir}/Games,%{_pixmapsdir}}
 
 install glchess		$RPM_BUILD_ROOT%{_bindir}
-install man/glchess.6	$RPM_BUILD_ROOT/%{_mandir}/man6
+install man/glchess.6	$RPM_BUILD_ROOT%{_mandir}/man6
 cp -rf textures		$RPM_BUILD_ROOT%{_datadir}/games/glchess
 install glchessrc	$RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE1}	$RPM_BUILD_ROOT%{_applnkdir}/Games
+install %{SOURCE2}	$RPM_BUILD_ROOT%{_pixmapsdir}
 
-bzip2 -dc %{SOURCE2} | tar xvf -
 install glchess-{16,32,48}.xpm $RPM_BUILD_ROOT%{_pixmapsdir}
 
 gzip -9nf README AUTHORS NEWS TODO
