@@ -13,6 +13,7 @@ Source2:	%{name}.png
 Patch0:		%{name}-man_nocompress.patch
 Patch1:		%{name}rc.patch
 Patch2:		%{name}-CFLAGS_and_CC.patch
+Patch3:		%{name}-no_clear_term.patch
 URL:		http://glchess.sf.net/
 BuildRequires:	gtk+-devel
 BuildRequires:	gtkglarea-devel
@@ -42,6 +43,7 @@ przeciw cz³owiekowi, lecz jeszcze nie przez sieæ (zobacz TODO).
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 %{__make} all \
@@ -60,7 +62,6 @@ install glchessrc	$RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE1}	$RPM_BUILD_ROOT%{_applnkdir}/Games
 install %{SOURCE2}	$RPM_BUILD_ROOT%{_pixmapsdir}
 
-install glchess-{16,32,48}.xpm $RPM_BUILD_ROOT%{_pixmapsdir}
 
 gzip -9nf README AUTHORS NEWS TODO
 
