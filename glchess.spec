@@ -12,7 +12,7 @@ Source2:	%{name}.png
 Patch0:		%{name}rc.patch
 Patch1:		%{name}-CC_and_CFLAGS.patch
 Patch2:		%{name}-gnuchessx.patch
-URL:		http://glchess.sf.net/
+URL:		http://glchess.sourceforge.net/
 BuildRequires:	OpenGL-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
