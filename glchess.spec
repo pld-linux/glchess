@@ -1,5 +1,5 @@
 Summary:	glChess - A 3D chess interface
-Summary(pl):	glChess - Interfejs 3D do szachÛw
+Summary(pl.UTF-8):   glChess - Interfejs 3D do szach√≥w
 Name:		glchess
 Version:	0.4.7
 Release:	5
@@ -30,11 +30,11 @@ Engine Communication Protocol (CECP) by Tim Mann. This means it can
 currently use Crafty and GNU Chess as AIs. You can also play Human vs.
 Human, but so far not over a netwerk (see TODO).
 
-%description -l pl
-glChess to TrÛjwymiarowe (3D) szachy w technologii OpenGL. Program
-uøywa Chess Engine Communication Protocol (CECP) autorstwa Tima Manna.
-Oznacza to Crafty b±dº GNU Chess jako AI. Moøna takøe graÊ cz≥owiek
-przeciw cz≥owiekowi, lecz jeszcze nie przez sieÊ (zobacz TODO).
+%description -l pl.UTF-8
+glChess to Tr√≥jwymiarowe (3D) szachy w technologii OpenGL. Program
+u≈ºywa Chess Engine Communication Protocol (CECP) autorstwa Tima Manna.
+Oznacza to Crafty bƒÖd≈∫ GNU Chess jako AI. Mo≈ºna tak≈ºe graƒá cz≈Çowiek
+przeciw cz≈Çowiekowi, lecz jeszcze nie przez sieƒá (zobacz TODO).
 
 %prep
 %setup -q
