@@ -1,5 +1,5 @@
 Summary:	glChess - A 3D chess interface
-Summary(pl.UTF-8):   glChess - Interfejs 3D do szachów
+Summary(pl.UTF-8):	glChess - Interfejs 3D do szachów
 Name:		glchess
 Version:	0.4.7
 Release:	5
