@@ -1,24 +1,15 @@
 Summary:	glChess - A 3D chess interface
 Summary(pl.UTF-8):	glChess - Interfejs 3D do szachów
 Name:		glchess
-Version:	0.4.7
-Release:	5
-License:	GPL
+Version:	1.0.6
+Release:	1
+License:	GPL v2
 Group:		X11/Applications/Games
 Source0:	http://dl.sourceforge.net/glchess/%{name}-%{version}.tar.gz
-# Source0-md5:	d4b852cb870be605dfb37646e6fa90b8
-Source1:	%{name}.desktop
-Source2:	%{name}.png
-Patch0:		%{name}rc.patch
-Patch1:		%{name}-CC_and_CFLAGS.patch
-Patch2:		%{name}-gnuchessx.patch
-URL:		http://glchess.sourceforge.net/
-BuildRequires:	OpenGL-devel
-BuildRequires:	autoconf
-BuildRequires:	automake
-BuildRequires:	gtk+-devel
-BuildRequires:	gtkglarea1-devel
+# Source0-md5:	b0125b7b824f2e4012badd0c465444dd
+URL:		http://live.gnome.org/glChess
 Requires:	OpenGL
+Conflicts:	gnome-games-glchess
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoreqdep	libGL.so.1 libGLU.so.1 libGLcore.so.1
@@ -38,45 +29,69 @@ przeciw człowiekowi, lecz jeszcze nie przez sieć (zobacz TODO).
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
 find . -type d -name CVS -exec rm -rf {} \; ||:
 
 %build
-CFLAGS_FROM_RPM="%{rpmcflags}"
-CC_FROM_RPM="%{__cc}"
-export CFLAGS_FROM_RPM CC_FROM_RPM
-rm -f missing
-%{__aclocal}
-%{__autoconf}
-%{__automake}
-%configure \
-	--with-lib-GL
 %{__make}
+
+%{__sed} -i -e 's#/usr/bin/python2.4#/usr/bin/python#' glchess
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man6,%{_datadir}/games/glchess/textures} \
-	$RPM_BUILD_ROOT{%{_sysconfdir},%{_desktopdir},%{_pixmapsdir}}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_desktopdir},%{_pixmapsdir},%{py_sitescriptdir}} \
+	$RPM_BUILD_ROOT{/usr/share/games/%{name}/{gui,textures},%{_sysconfdir}/gconf/schemas}
 
-install src/glchess	$RPM_BUILD_ROOT%{_bindir}
-install man/glchess.6	$RPM_BUILD_ROOT%{_mandir}/man6
-cp -rf textures		$RPM_BUILD_ROOT%{_datadir}/games/glchess
-install glchessrc	$RPM_BUILD_ROOT%{_sysconfdir}
-install %{SOURCE1}	$RPM_BUILD_ROOT%{_desktopdir}
-install %{SOURCE2}	$RPM_BUILD_ROOT%{_pixmapsdir}
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
+
+install glchess	$RPM_BUILD_ROOT%{_bindir}
+cp -rf lib/%{name} $RPM_BUILD_ROOT/%{py_sitescriptdir}/%{name}
+install glade/*.glade		$RPM_BUILD_ROOT/usr/share/games/%{name}/gui/
+install data/ai.xml		$RPM_BUILD_ROOT/usr/share/games/%{name}
+install data/textures/*		$RPM_BUILD_ROOT/usr/share/games/%{name}/textures/
+install data/glchess.desktop	$RPM_BUILD_ROOT%{_desktopdir}
+install data/glchess.svg	$RPM_BUILD_ROOT%{_pixmapsdir}
+install data/glchess.schemas	$RPM_BUILD_ROOT%{_sysconfdir}/gconf/schemas
+
+%find_lang %{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files
+%post
+%gconf_schema_install glchess.schemas
+
+%preun
+%gconf_schema_uninstall glchess.schemas
+
+%files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc README AUTHORS NEWS TODO
+%doc BUGS ChangeLog README TODO tests
+%{_sysconfdir}/gconf/schemas/*.schemas
 %attr(755,root,root) %{_bindir}/*
-%{_mandir}/man6/*
-%{_datadir}/games/glchess
+%dir %{py_sitescriptdir}/%{name}
+%{py_sitescriptdir}/%{name}/*.py
+%dir %{py_sitescriptdir}/%{name}/chess
+%{py_sitescriptdir}/%{name}/chess/*.py
+%dir %{py_sitescriptdir}/%{name}/chess/fics
+%{py_sitescriptdir}/%{name}/chess/fics/*.py
+%dir %{py_sitescriptdir}/%{name}/ggz
+%{py_sitescriptdir}/%{name}/ggz/*.py
+%dir %{py_sitescriptdir}/%{name}/gtkui
+%{py_sitescriptdir}/%{name}/gtkui/*.py
+%dir %{py_sitescriptdir}/%{name}/scene
+%{py_sitescriptdir}/%{name}/scene/*.py
+%dir %{py_sitescriptdir}/%{name}/scene/cairo
+%{py_sitescriptdir}/%{name}/scene/cairo/*.py
+%dir %{py_sitescriptdir}/%{name}/scene/opengl
+%{py_sitescriptdir}/%{name}/scene/opengl/*.py
+%dir %{py_sitescriptdir}/%{name}/ui
+%{py_sitescriptdir}/%{name}/ui/*.py
+%dir /usr/share/games/%{name}
+/usr/share/games/%{name}/*.xml
+%dir /usr/share/games/%{name}/gui
+/usr/share/games/%{name}/gui/*.glade
+%dir /usr/share/games/%{name}/textures
+/usr/share/games/%{name}/textures/*.png
 %{_pixmapsdir}/*
-#Have to overwrite config since some options have been added.
-%{_sysconfdir}/glchessrc
 %{_desktopdir}/glchess.desktop
