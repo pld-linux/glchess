@@ -8,7 +8,10 @@ Group:		X11/Applications/Games
 Source0:	http://dl.sourceforge.net/glchess/%{name}-%{version}.tar.gz
 # Source0-md5:	b0125b7b824f2e4012badd0c465444dd
 URL:		http://live.gnome.org/glChess
-Requires:	OpenGL
+Requires(post,postun):	GConf2
+Requires:	python-gnome-gconf
+Suggests:	python-PyOpenGL
+Suggests:	python-pygtkglext >= 1.1.0-2
 Conflicts:	gnome-games-glchess
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -67,7 +70,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc BUGS ChangeLog README TODO tests
-%{_sysconfdir}/gconf/schemas/*.schemas
+%{_sysconfdir}/gconf/schemas/glchess.schemas
 %attr(755,root,root) %{_bindir}/*
 %dir %{py_sitescriptdir}/%{name}
 %{py_sitescriptdir}/%{name}/*.py
@@ -87,11 +90,11 @@ rm -rf $RPM_BUILD_ROOT
 %{py_sitescriptdir}/%{name}/scene/opengl/*.py
 %dir %{py_sitescriptdir}/%{name}/ui
 %{py_sitescriptdir}/%{name}/ui/*.py
-%dir /usr/share/games/%{name}
-/usr/share/games/%{name}/*.xml
-%dir /usr/share/games/%{name}/gui
-/usr/share/games/%{name}/gui/*.glade
-%dir /usr/share/games/%{name}/textures
-/usr/share/games/%{name}/textures/*.png
+%dir %{_datadir}/games/%{name}
+%{_datadir}/games/%{name}/*.xml
+%dir %{_datadir}/games/%{name}/gui
+%{_datadir}/games/%{name}/gui/*.glade
+%dir %{_datadir}/games/%{name}/textures
+%{_datadir}/games/%{name}/textures/*.png
 %{_pixmapsdir}/*
 %{_desktopdir}/glchess.desktop
