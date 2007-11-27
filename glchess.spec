@@ -11,7 +11,7 @@ URL:		http://live.gnome.org/glChess
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
 BuildRequires:	sed >= 4.0
-Requires(post,postun):	GConf2
+Requires(post,preun):	GConf2
 Requires:	python-gnome-gconf
 Suggests:	python-PyOpenGL
 Suggests:	python-pygtkglext >= 1.1.0-2
