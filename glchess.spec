@@ -8,6 +8,7 @@ Group:		X11/Applications/Games
 Source0:	http://dl.sourceforge.net/glchess/%{name}-%{version}.tar.gz
 # Source0-md5:	b0125b7b824f2e4012badd0c465444dd
 URL:		http://live.gnome.org/glChess
+BuildRequires:	gettext-devel
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
 BuildRequires:	sed >= 4.0
